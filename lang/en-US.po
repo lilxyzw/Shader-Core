@@ -1,0 +1,99 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en-US\n"
+
+msgid "__Main"
+msgstr "Main"
+
+msgid "__RenderingMode"
+msgstr "Rendering Mode"
+
+msgid "__Position"
+msgstr "Position"
+
+msgid "__Color"
+msgstr "Color"
+
+msgid "__Alpha"
+msgstr "Alpha"
+
+msgid "__Strength"
+msgstr "Strength"
+
+msgid "__Range"
+msgstr "Range"
+
+msgid "__UV"
+msgstr "UV"
+
+msgid "__Tiling"
+msgstr "Tiling"
+
+msgid "__Offset"
+msgstr "Offset"
+
+msgid "__Texture"
+msgstr "Texture"
+
+msgid "__Mask"
+msgstr "Mask"
+
+msgid "__NormalMap"
+msgstr "Normal Map"
+
+msgid "__NormalMapWithRoughness"
+msgstr "Use Roughness in Normal Map"
+
+msgid "__Roughness"
+msgstr "Roughness"
+
+msgid "__Cutoff"
+msgstr "Cutoff"
+
+msgid "__SharedMask"
+msgstr "Shared Mask"
+
+msgid "__SharedGradients"
+msgstr "Shared Gradients"
+
+msgid "__GradientIndex"
+msgstr "Gradient Index"
+
+msgid "__MultiplyAlbedo"
+msgstr "Multiply Albedo"
+
+msgid "__MaskChannel"
+msgstr "Mask Channel"
+
+msgid "__Stencil"
+msgstr "Stencil"
+
+msgid "__Rendering"
+msgstr "Rendering"
+
+msgid "__Disable"
+msgstr "Disable"
+
+msgid "__Enable"
+msgstr "Enable"
+
+msgid "__RenderQueue"
+msgstr "Render Queue"
+
+msgid "__EnableGPUInstancing"
+msgstr "Enable GPU Instancing"
+
+msgid "__DoubleSidedGlobalIllumination"
+msgstr "Double Sided Global Illumination"
+
+msgid "__SelectModules"
+msgstr "Select Modules"
+
+msgid "__CreateTexture"
+msgstr "Create Texture"
+
+msgid "__EditTexture"
+msgstr "Edit Texture"

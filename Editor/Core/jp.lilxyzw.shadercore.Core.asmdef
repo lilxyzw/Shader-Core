@@ -1,0 +1,16 @@
+{
+    "name": "jp.lilxyzw.shadercore.Core",
+    "rootNamespace": "jp.lilxyzw.shadercore",
+    "references": [],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": true
+}

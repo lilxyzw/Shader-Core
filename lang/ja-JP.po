@@ -1,0 +1,99 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ja-JP\n"
+
+msgid "__Main"
+msgstr "メイン"
+
+msgid "__RenderingMode"
+msgstr "レンダリングモード"
+
+msgid "__Position"
+msgstr "座標"
+
+msgid "__Color"
+msgstr "色"
+
+msgid "__Alpha"
+msgstr "不透明度"
+
+msgid "__Strength"
+msgstr "強度"
+
+msgid "__Range"
+msgstr "範囲"
+
+msgid "__UV"
+msgstr "UV"
+
+msgid "__Tiling"
+msgstr "タイリング"
+
+msgid "__Offset"
+msgstr "オフセット"
+
+msgid "__Texture"
+msgstr "テクスチャ"
+
+msgid "__Mask"
+msgstr "マスク"
+
+msgid "__NormalMap"
+msgstr "ノーマルマップ"
+
+msgid "__NormalMapWithRoughness"
+msgstr "ノーマルマップ内のラフネスを使用"
+
+msgid "__Roughness"
+msgstr "ラフネス"
+
+msgid "__Cutoff"
+msgstr "カットオフ"
+
+msgid "__SharedMask"
+msgstr "共有マスク"
+
+msgid "__SharedGradients"
+msgstr "共有グラデーション"
+
+msgid "__GradientIndex"
+msgstr "グラデーション番号"
+
+msgid "__MultiplyAlbedo"
+msgstr "メインカラーを乗算"
+
+msgid "__MaskChannel"
+msgstr "マスクチャンネル"
+
+msgid "__Stencil"
+msgstr "ステンシル"
+
+msgid "__Rendering"
+msgstr "レンダリング"
+
+msgid "__Disable"
+msgstr "無効"
+
+msgid "__Enable"
+msgstr "有効"
+
+msgid "__RenderQueue"
+msgstr "Render Queue"
+
+msgid "__EnableGPUInstancing"
+msgstr "Enable GPU Instancing"
+
+msgid "__DoubleSidedGlobalIllumination"
+msgstr "Double Sided Global Illumination"
+
+msgid "__SelectModules"
+msgstr "モジュールを選択"
+
+msgid "__CreateTexture"
+msgstr "テクスチャを作成"
+
+msgid "__EditTexture"
+msgstr "テクスチャを編集"
