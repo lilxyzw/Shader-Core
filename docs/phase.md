@@ -11,6 +11,7 @@
 
 - `base` シェーダー本体のベースカラー（Albedo）とノーマルマップの取得後に実行される。`SCVertexData vertex`の読み込み、`SCShadingData sd`の読み書きが可能。ベースカラーに対する色調補正やデカール・ディテールの付与、ノーマルマップの合成、UV操作を想定。
 - `light` ライト1つ1つに対して実行される。`SCVertexData vertex`の読み込み、`SCShadingData sd`の読み書きが可能。`sd.postadd`にスペキュラを加算していく使い方を想定。
+- `customlight` 独自に拡張したライトを追加。`SCLightData lightSum``half3 env``half4 SHAr``half4 SHAg``half4 SHAb``half4 SHBr``half4 SHBg``half4 SHBb``half4 SHC`の編集が可能
 - `modifylight` トゥーンシェーダーにおいて全ライト合成後に実行。ライト色や方向を変更したり独自の影を付与したりする使い方を想定。
 - `shade` 乗算シェーディングを実行する。
 - `reflection` 乗算・加算・置換など任意の方法でシェーディングを実行する。多くの場合、順序の定義が必要。

@@ -106,6 +106,8 @@ void SCCalculateAllLights(inout SCLightData lightSum, inout half3 env, inout SCS
 
     env += vertexLighting;
 
+    __SC_PHASE_customlight__
+
     SCCalculateEnvironmentLight(lightSum, env, sd, cd, vertex, SHAr, SHAg, SHAb, SHBr, SHBg, SHBb, SHC);
 }
 
