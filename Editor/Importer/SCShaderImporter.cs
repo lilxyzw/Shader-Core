@@ -36,7 +36,6 @@ namespace jp.lilxyzw.shadercore
         public override void OnImportAsset(AssetImportContext ctx)
         {
             var shaderModules = ProjectSettings.GetShaderModules(ctx.assetPath);
-            Debug.Log(Utils.GetName(ctx.assetPath));
 
             this.ctx = ctx;
             var directory = Utils.GetDirectory(ctx.assetPath);
