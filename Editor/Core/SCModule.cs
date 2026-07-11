@@ -16,6 +16,7 @@ namespace jp.lilxyzw.shadercore
         public List<SCPhase> phases = new();
         [NonSerialized] public List<SCProperty> properties;
         [NonSerialized] public string path;
+        [NonSerialized] public string includes;
 
         public static SCModule FromShaderFile(string path)
         {
@@ -35,6 +36,9 @@ namespace jp.lilxyzw.shadercore
 
             var proppath = $"{directory}properties.hlsl";
             if (File.Exists(proppath)) module.properties = SCProperty.FromFile(proppath, module.keepPropertyNames ? "" : module.uniqueID);
+
+            var includespath = $"{directory}includes.hlsl";
+            if (File.Exists(includespath)) module.includes = File.ReadAllText(includespath);
 
             module.phases.AddRange(Directory.GetFiles(directory, "phase_*.hlsl").Select(n => new SCPhase(){phase = Regex.Match(n, @"phase_(\w+)\.hlsl").Groups[1].Value}));
 

@@ -286,3 +286,5 @@ float4 SCGetFrameColor(float2 uv)
         return 0;
     }
 }
+
+__SC_INCLUDES__

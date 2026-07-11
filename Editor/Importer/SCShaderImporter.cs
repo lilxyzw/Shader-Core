@@ -16,6 +16,7 @@ namespace jp.lilxyzw.shadercore
     {
         private static readonly Regex REG_INCLUDE = new(@"^\s*#include\s*""([^""]*)""\s*(//|$)");
         private static readonly Regex REG_PHASE = new(@"^\s*__SC_PHASE_([a-zA-Z0-9_]+)__\s*$");
+        private static readonly Regex REG_INCLUDES = new(@"^\s*__SC_INCLUDES__\s*$");
         private static readonly Regex REG_INDENT = new(@"^\s*");
         private readonly static Regex REG_SCConstValue = new(@"\[SCConstValue\s*\((.*)\)\]");
         private readonly static Regex REG_HLSLINCLUDE = new(@"^\s*HLSLINCLUDE");
@@ -133,6 +134,7 @@ namespace jp.lilxyzw.shadercore
                 var indent2 = indent + REG_INDENT.Match(line).Value;
                 if (RelacePhases(line, indent2)) continue;
                 if (RelaceInclude(line, indent2, directory)) continue;
+                if (ReplaceModuleIncludes(line)) continue;
                 sb.Append(indent).AppendLine(line);
             }
         }
@@ -145,6 +147,15 @@ namespace jp.lilxyzw.shadercore
             if (!phaseOrder.Contains(phase)) phaseOrder.Add(phase);
             foreach (var p in phases.Where(p => p.phase == phase && File.Exists(p.path)))
                 p.LoadHLSL(sb, indent, "_ST");
+            return true;
+        }
+
+        private bool ReplaceModuleIncludes(string line)
+        {
+            var match = REG_INCLUDES.Match(line);
+            if (!match.Success) return false;
+            foreach (var m in modules)
+                if (!string.IsNullOrEmpty(m.includes)) sb.AppendLine(m.includes);
             return true;
         }
 
