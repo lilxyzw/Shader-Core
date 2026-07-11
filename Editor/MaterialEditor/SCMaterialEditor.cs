@@ -120,6 +120,18 @@ public partial class SCMaterialEditor : MaterialEditor
         search.RegisterValueChangedCallback(_ => UpdateVisiblity());
         caseToggle.RegisterValueChangedCallback(_ => UpdateVisiblity());
 
+        #if !UNITY_6000_1_OR_NEWER
+        static MaterialProperty[] GetMaterialProperties(Object[] targets)
+        {
+            return MaterialEditor.GetMaterialProperties(targets).Select(p => (MaterialProperty)p).ToArray();
+        }
+
+        static MaterialProperty GetMaterialProperty(Object[] targets, string name)
+        {
+            return MaterialEditor.GetMaterialProperty(targets, name);
+        }
+        #endif
+
         // Build Properties
         MaterialProperty[] properties = null;
         MaterialProperty[] targetProperties = null;
