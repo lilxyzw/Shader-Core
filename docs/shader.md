@@ -59,8 +59,12 @@ half4 frag(v2f i, bool isFront : SV_IsFrontFace) : SV_Target
 
     ...
     // sdが必須
-    SCShadingData sd = (SCShadingData)0;
+    SCShadingData sd;
+    sd.L = 0;
+    sd.lightColor = 0;
     sd.shadow = 1;
+    sd.add = 0;
+    sd.postadd = 0;
     sd.uv = vertex.uv[0].xy;
     sd.albedoAlpha = SCSample(_BaseTexture, sampler_BaseTexture, sd.uv);
     sd.mask = SCSample(_SharedMask, sampler_BaseTexture, sd.uv);
