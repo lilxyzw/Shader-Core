@@ -1,5 +1,6 @@
 #pragma vertex vert
 #pragma fragment frag
+#define SC_PASS_NON_VIEW
 #pragma multi_compile_shadowcaster
 #pragma multi_compile_instancing
 
@@ -35,9 +36,10 @@ struct v2f
 void SCOutputSVPosition(inout v2f o, SCVertexData vertex, SCPositionAndDirection camera, SCPositionAndDirection head, SCPositionAndDirection headBone)
 {
     float3 L = normalize(UnityWorldSpaceLightDir(vertex.position));
+    if (unity_LightShadowBias.z == 0.0) L = 0;
     SCVertexPost(vertex, camera, head, headBone, L);
 
-    if(unity_LightShadowBias.z != 0.0)
+    if (unity_LightShadowBias.z != 0.0)
     {
         float3 normalWS = normalize(vertex.N);
         float shadowCos = dot(normalWS, L);
