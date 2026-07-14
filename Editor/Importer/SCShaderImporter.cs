@@ -88,6 +88,7 @@ namespace jp.lilxyzw.shadercore
                 var moduleDirectory = Utils.GetDirectory(module.path);
                 AddDependency(module.path);
                 AddDependency(moduleDirectory + "properties.hlsl");
+                AddDependency(moduleDirectory + "includes.hlsl");
                 foreach (var phase in module.phases)
                     AddDependency(phase.path);
             }
