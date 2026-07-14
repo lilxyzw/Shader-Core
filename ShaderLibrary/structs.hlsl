@@ -53,10 +53,10 @@ struct SCShadingData
     half4 col; // 最終的に出力されるシェーディングの結果
     half4 mask; // 各モジュールで使える共有マスクテクスチャ
     float2 uv; // メインテクスチャのサンプリングに使われるものと同じuv
-    half3 T; // ノーマルマップ適用後のnormal
-    half3 B; // ノーマルマップ適用後のtangent
-    half3 N; // ノーマルマップ適用後のbinormal
-    half3 N_detail; // ディテールノーマルマップ適用後のnormal
+    half3 T; // ノーマルマップ適用後のtangent
+    half3 B; // ノーマルマップ適用後のbinormal
+    half3 N; // ノーマルマップ適用後のnormal、baseフェーズではtangent空間
+    half3 N_detail; // ディテールノーマルマップ適用後のnormal、baseフェーズではtangent空間
     half3 L; // トゥーンシェーディング用のライトベクトル
     half3 lightColor; // ライト色
     half shadow; // 影
