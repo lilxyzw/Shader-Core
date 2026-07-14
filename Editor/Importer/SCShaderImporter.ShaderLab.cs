@@ -21,7 +21,13 @@ namespace jp.lilxyzw.shadercore
                     var sl = ToShaderLab(prop);
                     if (string.IsNullOrEmpty(sl)) continue;
                     sb.Append(indent).Append("    ");
-                    if((prop.type == "Texture2D" || prop.type == "Texture2DArray") && scaleOffsets.All(s => s.name != prop.name)) sb.Append("[NoScaleOffset]");
+                    if ((prop.type == "Texture2D" ||
+                        prop.type == "Texture2DArray" ||
+                        prop.type == "Texture3D" ||
+                        prop.type == "TextureCube" ||
+                        prop.type == "TextureCubeArray") &&
+                        scaleOffsets.All(s => s.name != prop.name)
+                    ) sb.Append("[NoScaleOffset]");
                     sb.AppendLine(sl);
                     if (sl == "[SCBoxEnd]" || sl == "[SCFoldoutEnd]") sb.AppendLine();
                 }
@@ -76,8 +82,8 @@ namespace jp.lilxyzw.shadercore
                 "Texture2D" => "2D",
                 "Texture2DArray" => "2DArray",
                 "Texture3D" => "3D",
-                "TextureCube" => "Cubemap",
-                "TextureCubeArray" => "CubemapArray",
+                "TextureCube" => "Cube",
+                "TextureCubeArray" => "CubeArray",
                 "float" => "Float",
                 "float4" => "Vector",
                 "uint" => "Integer",
