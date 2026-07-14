@@ -133,21 +133,40 @@ namespace jp.lilxyzw.shadercore
             while((line = sr.ReadLine()) != null)
             {
                 var indent2 = indent + REG_INDENT.Match(line).Value;
-                if (RelacePhases(line, indent2)) continue;
+                if (RelacePhases(line, indent2, directory)) continue;
                 if (RelaceInclude(line, indent2, directory)) continue;
                 if (ReplaceModuleIncludes(line)) continue;
                 sb.Append(indent).AppendLine(line);
             }
         }
 
-        private bool RelacePhases(string line, string indent)
+        private void ReadAndReplaceText(string text, string directory, string indent)
+        {
+            using var sr = new StringReader(text);
+            string line;
+            while((line = sr.ReadLine()) != null)
+            {
+                var indent2 = indent + REG_INDENT.Match(line).Value;
+                if (RelacePhases(line, indent2, directory)) continue;
+                if (RelaceInclude(line, indent2, directory)) continue;
+                if (ReplaceModuleIncludes(line)) continue;
+                sb.Append(indent).AppendLine(line);
+            }
+        }
+
+        private bool RelacePhases(string line, string indent, string directory)
         {
             var match = REG_PHASE.Match(line);
             if (!match.Success) return false;
             var phase = match.Groups[1].Value;
             if (!phaseOrder.Contains(phase)) phaseOrder.Add(phase);
+
+            var sb2 = new StringBuilder();
             foreach (var p in phases.Where(p => p.phase == phase && File.Exists(p.path)))
-                p.LoadHLSL(sb, indent, "_ST");
+                p.LoadHLSL(sb2, indent, "_ST");
+
+            ReadAndReplaceText(sb2.ToString(), directory, "");
+
             return true;
         }
 
