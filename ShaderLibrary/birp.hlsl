@@ -168,6 +168,16 @@ float SCTangentScale()
     return unity_WorldTransformParams.w;
 }
 
+float SCTime()
+{
+    return _Time.y;
+}
+
+float SCTime_Div20()
+{
+    return _Time.x;
+}
+
 // Depth
 #if defined(UNITY_SINGLE_PASS_STEREO)
     float2 ClampScreenUV(float2 uv){ return UnityStereoClamp(uv, unity_StereoScaleOffset[unity_StereoEyeIndex]); }

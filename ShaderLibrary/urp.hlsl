@@ -172,6 +172,16 @@ float SCTangentScale()
     return GetOddNegativeScale();
 }
 
+float SCTime()
+{
+    return _Time.y;
+}
+
+float SCTime_Div20()
+{
+    return _Time.x;
+}
+
 // Depth
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareOpaqueTexture.hlsl"
