@@ -127,7 +127,7 @@ namespace jp.lilxyzw.shadercore
         private static void SCVector(SCMaterialEditor editor, MaterialProperty prop, string args, VisualElement container)
         {
             if (args == "2") container.Add(new SCVector2Field(prop));
-            if (args == "3") container.Add(new SCVector3Field(prop));
+            else if (args == "3") container.Add(new SCVector3Field(prop));
             else container.Add(new SCVector4Field(prop));
         }
 
