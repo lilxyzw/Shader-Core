@@ -99,7 +99,7 @@ void SCCalculateAllLights(inout SCLightData lightSum, inout half3 env, inout SCS
         #if defined(UNITY_PASS_FORWARDBASE)
             light.direction = _WorldSpaceLightPos0.xyz;
         #elif defined(UNITY_PASS_FORWARDADD)
-            light.directional = normalize(UnityWorldSpaceLightDir(p.posWorld.xyz));
+            light.direction = normalize(UnityWorldSpaceLightDir(vertex.position));
         #endif
         SCCalculateLight(lightSum, sd, cd, vertex, light);
     #endif

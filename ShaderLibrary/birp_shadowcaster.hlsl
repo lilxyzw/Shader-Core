@@ -36,7 +36,7 @@ struct v2f
 void SCOutputSVPosition(inout v2f o, SCVertexData vertex, SCPositionAndDirection camera, SCPositionAndDirection head, SCPositionAndDirection headBone)
 {
     float3 L = normalize(UnityWorldSpaceLightDir(vertex.position));
-    if (unity_LightShadowBias.z == 0.0) L = 0;
+    if (unity_LightShadowBias.x == 0.0) L = 0;
     SCVertexPost(vertex, camera, head, headBone, L);
 
     if (unity_LightShadowBias.z != 0.0)
