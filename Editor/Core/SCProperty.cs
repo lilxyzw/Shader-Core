@@ -24,7 +24,7 @@ namespace jp.lilxyzw.shadercore
 
         private const string REG_variable = @"\w+";
         private const string REG_num = @"[\d\.\-]+";
-        private const string REG_vector = @"\([\d\.\-,]*\)";
+        private const string REG_vector = @"\([\d\.\-,\s]*\)";
         private const string REG_string = @"""[^""]*""";
 
         private const string REG_type = "(" + REG_variable + ")";
