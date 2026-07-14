@@ -167,6 +167,10 @@ bool SCIsVR()
     return abs(UNITY_MATRIX_P._m02) > 0.000001;
 }
 
+float SCTangentScale()
+{
+    return GetOddNegativeScale();
+}
 
 // Depth
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl"
