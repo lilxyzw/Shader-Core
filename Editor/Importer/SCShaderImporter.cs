@@ -36,13 +36,36 @@ namespace jp.lilxyzw.shadercore
 
         public override void OnImportAsset(AssetImportContext ctx)
         {
-            var shaderModules = ProjectSettings.GetShaderModules(ctx.assetPath);
+            ProjectSettings.GetShaderModules(ctx.assetPath, out var shaderModules, out var multiModules);
 
             this.ctx = ctx;
             var directory = Utils.GetDirectory(ctx.assetPath);
             modules.Add(SCModule.FromShaderFile(ctx.assetPath));
-            modules.AddRange(AssetUtils.GetFiles("*.scmodule").Select(path => SCModule.FromFile(path)).Where(m => shaderModules.Contains(m.uniqueID)).OrderBy(m => m));
+            modules.AddRange(AssetUtils.GetFiles("*.scmodule").Select(path => SCModule.FromFile(path)).Where(m => 
+                shaderModules.Contains(m.uniqueID) && (m.properties_multi == null || m.properties_multi.Count == 0) ||
+                multiModules.Any(mm => mm.name == m.uniqueID && mm.count > 0) && m.properties_multi != null && m.properties_multi.Count > 0
+            ).OrderBy(m => m));
             phases.AddRange(modules.SelectMany(m => m.phases));
+
+            // Multi Include
+            foreach (var m in modules)
+            {
+                var mm = multiModules.FirstOrDefault(mm => mm.name == m.uniqueID && mm.count > 0);
+                if (mm == null || m.properties_multi == null || m.properties_multi.Count == 0)
+                {
+                    m.count = 0;
+                    continue;
+                }
+
+                m.count = mm.count;
+
+                foreach (var p in m.properties)
+                    p.attributes = p.attributes.Select(a => a.Replace("__N__", m.count.ToString())).ToList();
+
+                for (int i = 0; i < m.count; i++)
+                    foreach (var prop in m.properties_multi)
+                        m.properties.Add(prop.Clone(i));
+            }
 
             ReadAndReplace(ctx.assetPath, directory, "");
             ReadAndReplaceProperty();
@@ -88,6 +111,7 @@ namespace jp.lilxyzw.shadercore
                 var moduleDirectory = Utils.GetDirectory(module.path);
                 AddDependency(module.path);
                 AddDependency(moduleDirectory + "properties.hlsl");
+                AddDependency(moduleDirectory + "properties_multi.hlsl");
                 AddDependency(moduleDirectory + "includes.hlsl");
                 foreach (var phase in module.phases)
                     AddDependency(phase.path);
@@ -163,7 +187,10 @@ namespace jp.lilxyzw.shadercore
 
             var sb2 = new StringBuilder();
             foreach (var p in phases.Where(p => p.phase == phase && File.Exists(p.path)))
-                p.LoadHLSL(sb2, indent, "_ST");
+            {
+                if (p.module.count == 0) p.LoadHLSL(sb2, indent, "_ST");
+                else for (int i = 0; i < p.module.count; i++) p.LoadHLSL(sb2, indent, "_ST", i);
+            }
 
             ReadAndReplaceText(sb2.ToString(), directory, "");
 
@@ -212,22 +239,24 @@ namespace jp.lilxyzw.shadercore
             if (!line.Contains("__SC_SHADERKEYWORDS__")) return false;
             foreach (var module in modules)
             {
-                if(module.properties == null) continue;
-                foreach (var prop in module.properties)
+                if(module.properties != null)
                 {
-                    if (prop.attributes == null) continue;
-                    foreach (var attr in prop.attributes)
+                    foreach (var prop in module.properties)
                     {
-                        var match = REG_SCConstValue.Match(attr);
-                        if (match.Success)
+                        if (prop.attributes == null) continue;
+                        foreach (var attr in prop.attributes)
                         {
-                            if (match.Groups[1].Value.Contains(','))
+                            var match = REG_SCConstValue.Match(attr);
+                            if (match.Success)
                             {
-                                ToKeywords(indent, sb, prop, match.Groups[1].Value.Split(','));
-                            }
-                            else
-                            {
-                                ToKeywords(indent, sb, prop, match.Groups[1].Value);
+                                if (match.Groups[1].Value.Contains(','))
+                                {
+                                    ToKeywords(indent, sb, prop, match.Groups[1].Value.Split(','));
+                                }
+                                else
+                                {
+                                    ToKeywords(indent, sb, prop, match.Groups[1].Value);
+                                }
                             }
                         }
                     }

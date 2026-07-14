@@ -16,6 +16,20 @@ namespace jp.lilxyzw.shadercore
         public string displayname;
         public string description;
 
+        public SCProperty Clone(int i)
+        {
+            return new()
+            {
+                type = type,
+                name = name?.Replace("__N__", i.ToString()),
+                originalName = originalName?.Replace("__N__", i.ToString()),
+                defaultvalue = defaultvalue?.Replace("__N__", i.ToString()),
+                attributes = attributes?.Select(a => a?.Replace("__N__", i.ToString())).ToList(),
+                displayname = displayname?.Replace("__N__", i.ToString()),
+                description = description?.Replace("__N__", i.ToString())
+            };
+        }
+
         private const string REG_START = @"^\s*SC_";
         private const string REG_END = @"\s*$";
         private const string REG_PAR_START = @"\s*\(\s*";

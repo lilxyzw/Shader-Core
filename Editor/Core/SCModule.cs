@@ -15,8 +15,10 @@ namespace jp.lilxyzw.shadercore
         public bool keepPropertyNames;
         public List<SCPhase> phases = new();
         [NonSerialized] public List<SCProperty> properties;
+        [NonSerialized] public List<SCProperty> properties_multi;
         [NonSerialized] public string path;
         [NonSerialized] public string includes;
+        [NonSerialized] public int count;
 
         public static SCModule FromShaderFile(string path)
         {
@@ -36,6 +38,9 @@ namespace jp.lilxyzw.shadercore
 
             var proppath = $"{directory}properties.hlsl";
             if (File.Exists(proppath)) module.properties = SCProperty.FromFile(proppath, module.keepPropertyNames ? "" : module.uniqueID);
+
+            var proppath_multi = $"{directory}properties_multi.hlsl";
+            if (File.Exists(proppath_multi)) module.properties_multi = SCProperty.FromFile(proppath_multi, module.keepPropertyNames ? "" : module.uniqueID);
 
             var includespath = $"{directory}includes.hlsl";
             if (File.Exists(includespath)) module.includes = File.ReadAllText(includespath);
@@ -85,13 +90,14 @@ namespace jp.lilxyzw.shadercore
         public string[] afters = {};
         [NonSerialized] public SCModule module;
 
-        public void LoadHLSL(StringBuilder sb, string indent, string scaleOffsetPostfix)
+        public void LoadHLSL(StringBuilder sb, string indent, string scaleOffsetPostfix, int i = -1)
         {
             if (!File.Exists(path)) throw new Exception($"File not found. {path}");
             using var sr = new StreamReader(path);
             string line;
             while((line = sr.ReadLine()) != null)
             {
+                if (i != -1) line = line.Replace("__N__", i.ToString());
                 if (module.properties != null)
                     foreach (var prop in module.properties)
                         if (!string.IsNullOrEmpty(prop.originalName)) line = Regex.Replace(

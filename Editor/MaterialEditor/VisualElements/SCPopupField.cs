@@ -24,13 +24,24 @@ namespace jp.lilxyzw.shadercore
             {
                 if (args.Length == 1)
                 {
-                    var type = TypeCache.GetTypesDerivedFrom(typeof(Enum)).FirstOrDefault(x => x.Name == value || x.FullName == value);
-                    if (type == null)
+                    if (int.TryParse(value, out var num))
                     {
-                        Debug.LogError($"Enum {value} not found.");
+                        for (int i = 0; i <= num; i++)
+                        {
+                            names.Add(i.ToString());
+                            values.Add(i);
+                        }
                     }
-                    names = Enum.GetNames(type).ToList();
-                    values = ((int[])Enum.GetValues(type)).ToList();
+                    else
+                    {
+                        var type = TypeCache.GetTypesDerivedFrom(typeof(Enum)).FirstOrDefault(x => x.Name == value || x.FullName == value);
+                        if (type == null)
+                        {
+                            Debug.LogError($"Enum {value} not found.");
+                        }
+                        names = Enum.GetNames(type).ToList();
+                        values = ((int[])Enum.GetValues(type)).ToList();
+                    }
                 }
                 else
                 {
