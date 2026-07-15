@@ -78,6 +78,7 @@ public partial class SCMaterialEditor : MaterialEditor
             root.style.paddingLeft = 8;
             root.Add(new Label(shader.name));
             var box = new SCBox();
+            box.style.flexGrow = 1;
             root.Add(box);
             box.Add(ModuleSetter.ModuleEditorField(shaderPath));
             window.ShowAuxWindow();

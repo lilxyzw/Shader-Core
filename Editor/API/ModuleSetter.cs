@@ -21,7 +21,12 @@ namespace jp.lilxyzw.shadercore
             _multiModules.arraySize = modules.Count(m => m.properties_multi == null || m.properties_multi.Count == 0);
 
             var root = new VisualElement();
+            root.style.flexGrow = 1;
             root.Bind(so);
+
+            var moduleList = new ScrollView(ScrollViewMode.Vertical);
+            moduleList.style.flexGrow = 1;
+            root.Add(moduleList);
 
             var applyButton = new Button(){text = "Apply"};
             applyButton.clickable = new(() =>
@@ -58,7 +63,7 @@ namespace jp.lilxyzw.shadercore
                     using var t = toggles.GetArrayElementAtIndex(index_t);
                     t.boolValue = modulenames.Contains(module.uniqueID);
                     var toggle = new Toggle{name = module.uniqueID, text = $"{module.name} ({module.uniqueID})", bindingPath = $"toggles.Array.data[{index_t}]"};
-                    root.Add(toggle);
+                    moduleList.Add(toggle);
                     bool initialized = false;
                     toggle.RegisterValueChangedCallback(e => {
                         if (initialized) applyButton.SetEnabled(true);
@@ -74,7 +79,7 @@ namespace jp.lilxyzw.shadercore
                     else m.intValue = first.count;
 
                     var count = new IntegerField{name = module.uniqueID, label = $"{module.name} ({module.uniqueID})", bindingPath = $"multiModules.Array.data[{index_m}]"};
-                    root.Add(count);
+                    moduleList.Add(count);
                     bool initialized = false;
                     count.RegisterValueChangedCallback(e => {
                         if (initialized) applyButton.SetEnabled(true);
