@@ -42,7 +42,7 @@ namespace jp.lilxyzw.shadercore
                 var importer = AssetImporter.GetAtPath(AssetDatabase.GetAssetPath(field.Property.textureValue)) as ImporterType;
                 var window = ScriptableObject.CreateInstance<EditorWindow>();
                 window.rootVisualElement.Add(Editor.CreateEditor(importer).CreateInspectorGUI());
-                window.ShowAuxWindow();
+                window.ShowUtility();
 
                 var e = SCUpdateEvent.GetPooled();
                 e.target = field;
@@ -52,7 +52,7 @@ namespace jp.lilxyzw.shadercore
             {
                 var window = ScriptableObject.CreateInstance<EditorWindow>();
                 window.rootVisualElement.Add(Editor.CreateEditor(importer).CreateInspectorGUI());
-                window.ShowAuxWindow();
+                window.ShowUtility();
             }
         }
     }
