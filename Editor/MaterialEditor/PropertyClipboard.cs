@@ -28,12 +28,18 @@ namespace jp.lilxyzw.shadercore
                             property.x = p.floatValue;
                             break;
                         case ShaderPropertyType.Vector:
-                        case ShaderPropertyType.Color:
                             property.type = "float4";
                             property.x = p.vectorValue.x;
                             property.y = p.vectorValue.y;
                             property.z = p.vectorValue.z;
                             property.w = p.vectorValue.w;
+                            break;
+                        case ShaderPropertyType.Color:
+                            property.type = "float4";
+                            property.x = p.colorValue.r;
+                            property.y = p.colorValue.g;
+                            property.z = p.colorValue.b;
+                            property.w = p.colorValue.a;
                             break;
                         case ShaderPropertyType.Int:
                             property.type = "int";
@@ -66,8 +72,10 @@ namespace jp.lilxyzw.shadercore
                         if (scprop.type == "float") prop.floatValue = scprop.x;
                         break;
                     case ShaderPropertyType.Vector:
-                    case ShaderPropertyType.Color:
                         if (scprop.type == "float4") prop.vectorValue = new(scprop.x,scprop.y,scprop.z,scprop.w);
+                        break;
+                    case ShaderPropertyType.Color:
+                        if (scprop.type == "float4") prop.colorValue = new(scprop.x,scprop.y,scprop.z,scprop.w);
                         break;
                     case ShaderPropertyType.Int:
                         if (scprop.type == "int") prop.intValue = scprop.ix;
