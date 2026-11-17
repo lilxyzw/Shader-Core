@@ -8,6 +8,9 @@ namespace jp.lilxyzw.shadercore
     {
         public static void Invoke()
         {
+            // Inspectors that were closed (or editors that leaked) never remove their root
+            // from this static set, so prune detached element trees before walking them.
+            TargetHolder.targets.RemoveWhere(t => t == null || t.panel == null);
             foreach (var target in TargetHolder.targets.SelectMany(t => t.Query().Build()).ToArray())
                 SendEvent(target);
         }
