@@ -30,8 +30,16 @@ namespace jp.lilxyzw.shadercore
             properties = objs.Select(p => p as MaterialProperty).Where(p => p != null).Union(objs.Where(o => o is List<MaterialProperty>).SelectMany(o => o as List<MaterialProperty>)).ToArray();
 
             UpdateUI();
-            Undo.undoRedoPerformed += UpdateUI;
-            RegisterCallback<DetachFromPanelEvent>(_ => Undo.undoRedoPerformed -= UpdateUI);
+            // Subscribe only while the element is actually in a panel. Elements that are
+            // created but never attached (which is common while an inspector is rebuilt)
+            // used to subscribe anyway and then never unsubscribed, leaking one delegate
+            // per material property row for the whole editor session.
+            RegisterCallback<AttachToPanelEvent>(_ =>
+            {
+                Undo.undoRedoPerformed -= OnUndoRedoPerformed;
+                Undo.undoRedoPerformed += OnUndoRedoPerformed;
+            });
+            RegisterCallback<DetachFromPanelEvent>(_ => Undo.undoRedoPerformed -= OnUndoRedoPerformed);
 
             style.width = 16;
             style.marginLeft = -8;
@@ -73,6 +81,20 @@ namespace jp.lilxyzw.shadercore
                     }
                 }));
             }
+        }
+
+        // Undo.undoRedoPerformed is a static event, so it keeps every subscribed element alive.
+        // A lock element that is created but never attached to a panel (or whose panel is torn
+        // down without a DetachFromPanelEvent) used to stay subscribed forever: one leaked
+        // delegate per material property row, for the whole editor session.
+        private void OnUndoRedoPerformed()
+        {
+            if (panel == null)
+            {
+                Undo.undoRedoPerformed -= OnUndoRedoPerformed;
+                return;
+            }
+            UpdateUI();
         }
 
         private void UpdateUI()

@@ -42,8 +42,18 @@ namespace jp.lilxyzw.shadercore
 
             Selection.selectionChanged += () =>
             {
+                // Only the editors whose material is actually selected need a refresh.
+                // Iterating every live SCMaterialEditor (including ones that are no longer
+                // shown) made each selection change cost several seconds once a few dozens
+                // of material inspectors had been opened during the session.
+                var selected = Selection.objects;
+                if (selected == null || selected.Length == 0) return;
                 foreach (var e in Resources.FindObjectsOfTypeAll<SCMaterialEditor>())
+                {
+                    if (e == null || e.target == null) continue;
+                    if (Array.IndexOf(selected, e.target) < 0) continue;
                     e.UpdateInspectorGUI();
+                }
             };
         }
     }

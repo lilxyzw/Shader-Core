@@ -27,6 +27,10 @@ public partial class SCMaterialEditor : MaterialEditor
     public override VisualElement CreateInspectorGUI()
     {
         UpdateInspectorGUI();
+        // CreateInspectorGUI can be called more than once per editor (inspector rebuilds,
+        // inspector mode changes, ...). Subscribe only once, otherwise Update is invoked
+        // several times per frame and OnDisable can never remove the extra subscriptions.
+        EditorApplication.update -= Update;
         EditorApplication.update += Update;
         return root;
     }
@@ -241,7 +245,17 @@ public partial class SCMaterialEditor : MaterialEditor
         base.OnDisable();
     }
 
-    private void Update() => root.style.display = isVisible ? DisplayStyle.Flex : DisplayStyle.None;
+    private void Update()
+    {
+        // The static EditorApplication.update event keeps this editor (and its already
+        // destroyed material) alive when OnDisable never runs. Self-unsubscribe instead.
+        if (root == null || target == null)
+        {
+            EditorApplication.update -= Update;
+            return;
+        }
+        root.style.display = isVisible ? DisplayStyle.Flex : DisplayStyle.None;
+    }
 
     public void ShaderProperty(VisualElement container, MaterialProperty prop, string[] attributes = null)
     {
